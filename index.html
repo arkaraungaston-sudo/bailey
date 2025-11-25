@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Love Story</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #fff0f5; /* Lavender Blush */
+            /* Hide scrollbar for clean app feel */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        body::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        /* Typography */
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2s infinite ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        /* Utilities */
+        .hidden-section {
+            display: none;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 80px);
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Timeline connector line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #fbcfe8; /* pink-200 */
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800 h-screen overflow-hidden flex flex-col">
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto pb-24 relative scroll-smooth" id="main-container">
+        
+        <!-- TAB 1: HOME -->
+        <section id="home-section" class="min-h-full flex flex-col items-center pt-12 px-6 animate-slide-up">
+            <div class="relative mb-6">
+                <div class="absolute inset-0 bg-pink-300 rounded-full blur-xl opacity-40 animate-pulse"></div>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah&backgroundColor=ffdfbf" alt="Profile" class="w-28 h-28 rounded-full border-4 border-white shadow-lg relative z-10 animate-float bg-white">
+                <div class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-md z-20">
+                    <i data-lucide="heart" class="w-5 h-5 text-red-500 fill-red-500"></i>
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-800 mb-1">Hi, <span id="her-name-display">Love</span></h1>
+            <p class="text-pink-500 font-medium mb-8 text-sm bg-pink-100 px-3 py-1 rounded-full">Since <span id="start-date-display">...</span></p>
+
+            <!-- Counter Card -->
+            <div class="w-full bg-white rounded-3xl p-6 shadow-xl shadow-pink-100/50 mb-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-pink-50 rounded-bl-full -mr-4 -mt-4 z-0"></div>
+                <div class="relative z-10 text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-2">We've been in love for</p>
+                    <div class="flex justify-center items-end gap-1 text-pink-600">
+                        <span id="days-counter" class="text-5xl font-bold font-mono leading-none">0</span>
+                        <span class="text-lg font-bold mb-1">days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive "Daily Note" -->
+            <div class="w-full">
+                <button onclick="showRandomNote()" class="w-full bg-gradient-to-r from-pink-500 to-rose-400 text-white rounded-2xl p-4 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span>Tap for a Daily Note</span>
+                </button>
+                <div id="daily-note-area" class="mt-4 text-center text-gray-600 italic font-handwriting text-xl h-12 transition-all opacity-0"></div>
+            </div>
+        </section>
+
+        <!-- TAB 2: TIMELINE (New!) -->
+        <section id="timeline-section" class="hidden-section min-h-full pt-12 px-6 pb-6 animate-slide-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pl-2">Our Journey</h2>
+            <div class="space-y-8 relative timeline-line pl-2">
+                
+                <!-- Event 1 -->
+                <div class="relative pl-10">
+                    <div class="absolute left-0 top-1 w-8 h-8 bg-pink-100 rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10">
+                        <i data-lucide="calendar-heart" class="w-4 h-4 text-pink-500"></i>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-pink-50">
+                        <span class="text-xs font-bold text-pink-400 uppercase">Jan 14, 2023</span>
+                        <h3 class="font-bold text-gray-800 text-lg">First Date</h3>
+                        <p class="text-gray-500 text-sm mt-1">We went to that coffee shop and talked for 4 hours straight.</p>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative pl-10">
+                    <div class="absolute left-0 top-1 w-8 h-8 bg-blue-100 rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10">
+                        <i data-lucide="plane" class="w-4 h-4 text-blue-500"></i>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+                        <span class="text-xs font-bold text-blue-400 uppercase">Aug 05, 2023</span>
+                        <h3 class="font-bold text-gray-800 text-lg">First Trip</h3>
+                        <p class="text-gray-500 text-sm mt-1">The beach weekend. I knew I loved you then.</p>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative pl-10">
+                    <div class="absolute left-0 top-1 w-8 h-8 bg-purple-100 rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10">
+                        <i data-lucide="home" class="w-4 h-4 text-purple-500"></i>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-purple-50">
+                        <span class="text-xs font-bold text-purple-400 uppercase">Dec 2023</span>
+                        <h3 class="font-bold text-gray-800 text-lg">Moving In</h3>
+                        <p class="text-gray-500 text-sm mt-1">Starting our life together under one roof.</p>
+                    </div>
+                </div>
+
+                 <!-- Add Event Button -->
+                 <div class="relative pl-10 opacity-50">
+                    <div class="absolute left-0 top-1 w-8 h-8 bg-gray-100 rounded-full border-4 border-white z-10"></div>
+                    <p class="text-sm text-gray-400 italic pt-2">To be continued...</p>
+                 </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: GALLERY -->
+        <section id="gallery-section" class="hidden-section min-h-full pt-12 px-4 pb-6 animate-slide-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 px-2">Moments</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Photo 1 -->
+                <div class="bg-white p-2 rounded-2xl shadow-sm break-inside-avoid mb-3">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=500&auto=format&fit=crop" class="w-full h-40 object-cover rounded-xl bg-gray-100" alt="Memory">
+                    <p class="text-xs text-center mt-2 font-bold text-gray-600">Summer '23</p>
+                </div>
+                <!-- Photo 2 -->
+                <div class="bg-white p-2 rounded-2xl shadow-sm break-inside-avoid mb-3 mt-8">
+                    <img src="https://images.unsplash.com/photo-1621600411688-4be93cd68504?q=80&w=500&auto=format&fit=crop" class="w-full h-48 object-cover rounded-xl bg-gray-100" alt="Memory">
+                    <p class="text-xs text-center mt-2 font-bold text-gray-600">Date Night</p>
+                </div>
+                <!-- Photo 3 -->
+                <div class="bg-white p-2 rounded-2xl shadow-sm break-inside-avoid mb-3">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=500&auto=format&fit=crop" class="w-full h-56 object-cover rounded-xl bg-gray-100" alt="Memory">
+                    <p class="text-xs text-center mt-2 font-bold text-gray-600">Silly Faces</p>
+                </div>
+                <!-- Photo 4 -->
+                <div class="bg-white p-2 rounded-2xl shadow-sm break-inside-avoid mb-3 mt-4">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl bg-gray-100" alt="Memory">
+                    <p class="text-xs text-center mt-2 font-bold text-gray-600">Us ❤️</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: MUSIC (New!) -->
+        <section id="music-section" class="hidden-section min-h-full pt-12 px-6 pb-6 animate-slide-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Our Playlist</h2>
+            <p class="text-sm text-gray-500 mb-6">Songs that make me think of you</p>
+            
+            <div class="space-y-4">
+                <!-- Song 1 -->
+                <a href="#" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
+                    <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center text-white mr-4 shadow-md shadow-pink-200">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Perfect</h3>
+                        <p class="text-xs text-gray-500">Ed Sheeran</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                        <i data-lucide="play" class="w-4 h-4 ml-0.5"></i>
+                    </div>
+                </a>
+
+                <!-- Song 2 -->
+                <a href="#" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
+                    <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-white mr-4 shadow-md shadow-purple-200">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Lover</h3>
+                        <p class="text-xs text-gray-500">Taylor Swift</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                        <i data-lucide="play" class="w-4 h-4 ml-0.5"></i>
+                    </div>
+                </a>
+
+                <!-- Song 3 -->
+                <a href="#" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
+                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white mr-4 shadow-md shadow-blue-200">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800 text-sm">Just the Way You Are</h3>
+                        <p class="text-xs text-gray-500">Bruno Mars</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                        <i data-lucide="play" class="w-4 h-4 ml-0.5"></i>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Floating Music Note Decoration -->
+            <div class="mt-12 flex justify-center opacity-50">
+                 <div class="flex gap-4">
+                     <div class="w-1 bg-pink-400 h-8 animate-pulse"></div>
+                     <div class="w-1 bg-pink-400 h-12 animate-pulse delay-75"></div>
+                     <div class="w-1 bg-pink-400 h-6 animate-pulse delay-150"></div>
+                     <div class="w-1 bg-pink-400 h-10 animate-pulse delay-100"></div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: LETTERS -->
+        <section id="letters-section" class="hidden-section min-h-full pt-12 px-6 pb-6 animate-slide-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Love Notes</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Envelope 1 -->
+                <div onclick="toggleLetter(this)" class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-pink-400 cursor-pointer transition-all hover:shadow-md group">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-gray-800 group-hover:text-pink-500 transition-colors">Open when you're sad</h3>
+                        <i data-lucide="mail" class="w-5 h-5 text-gray-300"></i>
+                    </div>
+                    <div class="letter-content hidden text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3 mt-2 font-handwriting text-lg">
+                        Remember that you are stronger than you think, and I am always here to hold your hand. This too shall pass, my love.
+                    </div>
+                </div>
+
+                <!-- Envelope 2 -->
+                <div onclick="toggleLetter(this)" class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-purple-400 cursor-pointer transition-all hover:shadow-md group">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-gray-800 group-hover:text-purple-500 transition-colors">Why I chose you</h3>
+                        <i data-lucide="mail" class="w-5 h-5 text-gray-300"></i>
+                    </div>
+                    <div class="letter-content hidden text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3 mt-2 font-handwriting text-lg">
+                        I chose you because you make me want to be a better person. You are my best friend and my greatest adventure.
+                    </div>
+                </div>
+
+                 <!-- Envelope 3 -->
+                 <div onclick="toggleLetter(this)" class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-blue-400 cursor-pointer transition-all hover:shadow-md group">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-gray-800 group-hover:text-blue-500 transition-colors">Our Promise</h3>
+                        <i data-lucide="mail" class="w-5 h-5 text-gray-300"></i>
+                    </div>
+                    <div class="letter-content hidden text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3 mt-2 font-handwriting text-lg">
+                        I promise to always listen, to never go to bed angry, and to always buy you snacks when you're hungry.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION (Glass Effect) -->
+    <nav class="fixed bottom-0 w-full glass pb-safe z-50">
+        <div class="flex justify-between items-center px-6 h-[70px]">
+            
+            <button onclick="switchTab('home')" class="nav-btn active flex flex-col items-center gap-1 text-pink-500 transition-all" data-target="home">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">Home</span>
+            </button>
+
+            <button onclick="switchTab('timeline')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-pink-400 transition-all" data-target="timeline">
+                <i data-lucide="history" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">Journey</span>
+            </button>
+
+            <!-- Center Add Button (Decorative) -->
+            <div class="-mt-8">
+                <button onclick="switchTab('gallery')" class="bg-gradient-to-tr from-pink-500 to-rose-400 p-4 rounded-full shadow-lg shadow-pink-300 active:scale-95 transition-transform">
+                    <i data-lucide="image" class="w-6 h-6 text-white"></i>
+                </button>
+            </div>
+
+            <button onclick="switchTab('music')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-pink-400 transition-all" data-target="music">
+                <i data-lucide="music" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">Tunes</span>
+            </button>
+
+            <button onclick="switchTab('letters')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-pink-400 transition-all" data-target="letters">
+                <i data-lucide="mail-heart" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">Notes</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- SCRIPT -->
+    <script>
+        // CONFIGURATION
+        const CONFIG = {
+            name: "Sarah",
+            startDate: "2023-01-14",
+            notes: [
+                "You look beautiful today! ✨",
+                "I'm so lucky to have you. 🍀",
+                "Thinking of you... always. ❤️",
+                "Your smile is my favorite thing. 😊",
+                "Can't wait to see you! 🏃‍♂️",
+                "You make my heart skip a beat. 💓"
+            ]
+        };
+
+        // INIT
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Set Data
+            document.getElementById('her-name-display').innerText = CONFIG.name;
+            document.getElementById('start-date-display').innerText = new Date(CONFIG.startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            // Start Timer
+            setInterval(updateTimer, 1000);
+            updateTimer(); // initial call
+        });
+
+        // TAB SWITCHING logic
+        function switchTab(tabId) {
+            // 1. Hide all sections
+            document.querySelectorAll('section').forEach(el => {
+                el.classList.add('hidden-section');
+                el.classList.remove('animate-slide-up');
+            });
+            
+            // 2. Show active section
+            const activeSection = document.getElementById(tabId + '-section');
+            activeSection.classList.remove('hidden-section');
+            void activeSection.offsetWidth; // trigger reflow for animation
+            activeSection.classList.add('animate-slide-up');
+
+            // 3. Update Nav Icons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-pink-500');
+                btn.classList.add('text-gray-400');
+            });
+            
+            // Find button by data-target
+            const activeBtn = document.querySelector(`.nav-btn[data-target="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-pink-500');
+            }
+
+            // Scroll to top
+            document.getElementById('main-container').scrollTop = 0;
+            lucide.createIcons();
+        }
+
+        // TIMER LOGIC
+        function updateTimer() {
+            const start = new Date(CONFIG.startDate);
+            const now = new Date();
+            const diff = now - start;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days-counter').innerText = days;
+        }
+
+        // RANDOM NOTE LOGIC
+        function showRandomNote() {
+            const noteArea = document.getElementById('daily-note-area');
+            noteArea.style.opacity = '0';
+            
+            setTimeout(() => {
+                const randomNote = CONFIG.notes[Math.floor(Math.random() * CONFIG.notes.length)];
+                noteArea.innerText = `"${randomNote}"`;
+                noteArea.style.opacity = '1';
+            }, 200);
+        }
+
+        // TOGGLE LETTER
+        function toggleLetter(element) {
+            const content = element.querySelector('.letter-content');
+            const isHidden = content.classList.contains('hidden');
+            
+            // Close others (optional - nice for UX)
+            document.querySelectorAll('.letter-content').forEach(el => el.classList.add('hidden'));
+
+            if (isHidden) {
+                content.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
